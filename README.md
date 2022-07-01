@@ -1,3 +1,35 @@
+# Installation
+1) navigate to your `orion` folder
+2) Install module
+
+   `git submodule add https://github.com/schneidertech/orion-laradock.git`
+3) `cd orion-laradock`
+4) `docker compose up`
+5) In browser navigate to `localhost`
+
+## Issues
+`config/database.php` must be edited
+```phpt
+   'redis' => [
+        'cluster' => env('REDIS_CACHE_CLUSTER', false),
+        'default' => env('REDIS_CACHE_CONNECTIONS', 'tcp://'.env( 'REDIS_HOST', '127.0.0.1' ).':6379?database=0'),
+        'options' => env('REDIS_CACHE_OPTIONS', null),
+    ]
+```
+
+should be modified to:
+```phpt
+   'redis' =>  [
+        'cluster' => false,
+        'default' => [
+            'host'     => 'redis',
+            'port'     => 6379,
+            'database' => 0,
+        ],
+    ],
+```
+**Do not commit this to your branch!**
+
 <p align="center">
     <img src="/.github/home-page-images/laradock-logo.jpg?raw=true" alt="Laradock Logo"/>
 </p>
